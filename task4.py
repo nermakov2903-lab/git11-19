@@ -39,7 +39,7 @@ def int_to_array(num):
 
 
 def big_number_operation(a, b, op):
-     """
+    """
     Складывает или вычитает большие числа, представленные массивами цифр.
 
     Параметры:
@@ -74,7 +74,7 @@ def big_number_operation(a, b, op):
 
 def generate_digits(n):
     
-     """
+    """
     Генерирует массив случайных цифр.
 
     Параметры:
