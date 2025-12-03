@@ -24,9 +24,11 @@ def rotate_matrix(matrix, direction="clockwise"):
     """
     logger.info(f"Вызов rotate_matrix()")
 
-    if not matrix or not matrix[0]:
-        logger.info("Получена пустая матрица")
-        return []
+    if matrix is None:
+        raise ValueError("Матрица не введена")
+
+    if direction not in ("clockwise", "counterclockwise"):
+        raise ValueError("Направление должно быть 'clockwise' или 'counterclockwise'")
 
     if direction == "clockwise":
         logger.info("Выполняется поворот по часовой стрелке")
@@ -51,6 +53,8 @@ def generate_random_matrix(n, m, low=0, high=9):
         list[list[int]]: созданная матрица
     """
     logger.info(f"Генерация случайной матрицы {n}x{m}")
+    if n <= 0 or m <= 0:
+        raise ValueError("Размеры должны быть положительными")
     return [[random.randint(low, high) for _ in range(m)] for _ in range(n)]
 
 
@@ -87,38 +91,51 @@ def task3_menu():
         logger.info(f"Пользователь выбрал пункт меню task3: {choice}")
 
         if choice == "1":
-            n = int(input("Введите N: "))
-            m = int(input("Введите M: "))
-            matrix = [list(map(int, input().split())) for _ in range(n)]
-            logger.info("Матрица введена вручную")
-            result = None
+            try:
+                n = int(input("N: "))
+                m = int(input("M: "))
+                matrix = [list(map(int, input().split())) for _ in range(n)]
+                result = None
+                logger.info("Матрица введена вручную")
+            except Exception as e:
+                logger.info(f"Ошибка ввода: {e}")
+                print("Ошибка:", e)
 
         elif choice == "2":
-            n = int(input("N: "))
-            m = int(input("M: "))
-            matrix = generate_random_matrix(n, m)
-            logger.info("Матрица сгенерирована автоматически")
-            result = None
+            try:
+                n = int(input("N: "))
+                m = int(input("M: "))
+                matrix = generate_random_matrix(n, m)
+                print(*matrix, sep="\n")
+                result = None
+                logger.info("Случайная матрица сгенерирована")
+            except Exception as e:
+                logger.info(f"Ошибка генерации: {e}")
+                print("Ошибка:", e)
 
         elif choice == "3":
             if matrix is None:
+                logger.info("Попытка поворота без матрицы")
                 print("Сначала введите матрицу!")
-                logger.info("Ошибка: попытка выполнить поворот без матрицы")
-                continue
-
-            direction = input("Направление (clockwise/counterclockwise): ")
-            result = rotate_matrix(matrix, direction)
-            logger.info("Поворот выполнен")
+            else:
+                try:
+                    direction = input("Направление (clockwise/counterclockwise): ")
+                    result = rotate_matrix(matrix, direction)
+                    print("Поворот выполнен.")
+                    logger.info("Поворот матрицы выполнен")
+                except Exception as e:
+                    logger.info(f"Ошибка поворота: {e}")
+                    print("Ошибка:", e)
 
         elif choice == "4":
             if result is None:
                 print("Нет результата!")
-                logger.info("Ошибка: попытка вывести результат без алгоритма")
             else:
                 print(*result, sep="\n")
+                logger.info("Результат показан")
 
         elif choice == "5":
-            logger.info("Возврат в главное меню")
+            logger.info("Выход из task3")
             return
 
         elif choice == "6":
