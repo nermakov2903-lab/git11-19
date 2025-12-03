@@ -3,7 +3,7 @@ from logger import logger
 
 
 def rotate_matrix(matrix, direction="clockwise"):
-        """
+    """
     Поворачивает матрицу на 90 градусов.
 
     Параметры:
@@ -22,7 +22,7 @@ def rotate_matrix(matrix, direction="clockwise"):
         - Для clockwise: разворот строк
         - Для counterclockwise: разворот порядка строк
     """
-    logger.info(f"Вызов rotate_matrix(direction={direction})")
+    logger.info(f"Вызов rotate_matrix()")
 
     if not matrix or not matrix[0]:
         logger.info("Получена пустая матрица")
@@ -38,7 +38,7 @@ def rotate_matrix(matrix, direction="clockwise"):
 
 
 def generate_random_matrix(n, m, low=0, high=9):
-        """
+    """
     Генерирует случайную матрицу N×M.
 
     Параметры:
@@ -55,7 +55,7 @@ def generate_random_matrix(n, m, low=0, high=9):
 
 
 def task3_menu():
-         """
+    """
     Меню для задачи 3: поворот матрицы.
 
     Позволяет:
