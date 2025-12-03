@@ -1,8 +1,10 @@
 import random
+from logger import logger
 
 
 def count_common_with_reverse(array1, array2):
-    """
+    logger.info(f"Вызов count_common_with_reverse({array1}, {array2})")
+"""
     Подсчитывает количество чисел, которые встречаются в обоих массивах,
     включая случаи, когда одно число является перевёрнутой версией другого.
 
@@ -25,19 +27,19 @@ def count_common_with_reverse(array1, array2):
     Возвращает:
         int: количество совпадающих элементов
     """
-
     count = 0
-
     for number in array1:
-        # Формируем перевёрнутое число, сохраняя знак
+
         if number < 0:
             reversed_number = -int(str(-number)[::-1])
         else:
             reversed_number = int(str(number)[::-1])
 
-        # Проверяем совпадение или совпадение с переворотом
+        logger.info(f"Проверка числа {number}, обратное {reversed_number}")
+
         if number in array2 or reversed_number in array2:
             count += 1
+            logger.info(f"Совпадение найдено: {number}")
 
     return count
 
@@ -54,6 +56,7 @@ def generate_random_array(size, min_val=-999, max_val=999):
     Возвращает:
         list[int]: массив случайных чисел
     """
+    logger.info(f"Генерация случайного массива длиной {size}")
     return [random.randint(min_val, max_val) for _ in range(size)]
 
 
@@ -69,6 +72,7 @@ def task8_menu():
         3. Выполнение алгоритма
         4. Вывод результата
         5. Возврат в главное меню
+        6. Отключение логирования
 
     Правила:
         - Нельзя выполнять алгоритм без введённых данных
@@ -87,43 +91,49 @@ def task8_menu():
         print("3. Выполнить алгоритм")
         print("4. Показать результат")
         print("5. Назад в главное меню")
+        print("6. Отключить логирование(CRITICAL)")
 
         choice = input("Выберите пункт: ")
+        logger.info(f"Пользователь выбрал пункт task8: {choice}")
 
-        # --- Ввод вручную ---
         if choice == "1":
             array1 = list(map(int, input("Массив 1: ").split()))
             array2 = list(map(int, input("Массив 2: ").split()))
+            logger.info("Массивы введены вручную")
             result = None
 
-        # --- Генерация случайных массивов ---
         elif choice == "2":
             size1 = int(input("Размер массива 1: "))
             size2 = int(input("Размер массива 2: "))
             array1 = generate_random_array(size1)
             array2 = generate_random_array(size2)
-            print("Массив 1:", array1)
-            print("Массив 2:", array2)
+            logger.info("Массивы сгенерированы случайно")
             result = None
 
-        # --- Выполнение алгоритма ---
         elif choice == "3":
             if array1 is None or array2 is None:
                 print("Сначала введите данные!")
+                logger.info("Ошибка: попытка выполнить алгоритм без данных")
             else:
                 result = count_common_with_reverse(array1, array2)
-                print("Алгоритм выполнен.")
+                logger.info("Алгоритм выполнен")
 
-        # --- Вывод результата ---
         elif choice == "4":
             if result is None:
                 print("Сначала выполните алгоритм!")
+                logger.info("Ошибка: вывод результата без выполнения алгоритма")
             else:
                 print("Количество общих чисел:", result)
 
-        # --- Выход ---
         elif choice == "5":
+            logger.info("Возврат в главное меню")
             return
 
+        elif choice == "6":
+            logger.setLevel("CRITICAL")
+            print("Логирование отключено!")
+            logger.critical("Логи ниже уровня CRITICAL теперь отключены")
+            
         else:
             print("Неверный пункт меню.")
+            logger.info("Неверный пункт меню пользователем")
