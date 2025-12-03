@@ -2,6 +2,7 @@ from logger import logger
 from task3 import task3_menu
 from task4 import task4_menu
 from task8 import task8_menu
+from messages import MESSAGES
 
 """
 Главный модуль программы.
@@ -23,6 +24,7 @@ def main():
         — перейти к выполнению задания №8,
         — завершить работу приложения.
     """
+  msgs = MESSAGES["main_menu"]
   while True:
     print("\n=== ГЛАВНОЕ МЕНЮ ===")
     print("1. Задание 3 (Поворот матрицы)")
@@ -30,7 +32,11 @@ def main():
     print("3. Задание 8 (Общие числа с реверсом)")
     print("4. Выход")
 
-    choice = input("Выберите пункт: ")
+    print("\n" + msgs["title"])
+    for option in msgs["options"]:
+        print(option)
+
+    choice = input(msgs["prompt"])
     logger.info(f"Пользователь выбрал главный пункт меню: {choice}")
 
     if choice == "1":
@@ -43,7 +49,7 @@ def main():
         print("Выход...")
         break
     else:
-        print("Неверный пункт!")
+        print(msgs["invalid"])
         logger.info("Ошибка: неверный пункт главного меню")
 
 
