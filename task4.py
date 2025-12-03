@@ -1,5 +1,7 @@
 import random
 from logger import logger
+from messages import MESSAGES
+from exceptions import DataNotSetError, InvalidValueError
 
 
 def array_to_int(arr):
@@ -18,7 +20,7 @@ def array_to_int(arr):
 
     logger.info(f"Преобразование массива в число: {arr}")
     if not all(isinstance(x, int) for x in arr):
-        raise TypeError("Массив должен содержать только цифры")
+        raise InvalidValueError("Массив должен содержать только цифры")
     return int("".join(map(str, arr)))
 
 
@@ -60,7 +62,7 @@ def big_number_operation(a, b, op):
 
     if op not in ("add", "sub"):
         logger.info("Ошибка: неверная операция")
-        raise ValueError("op must be 'add' or 'sub'")
+        raise InvalidValueError("op must be 'add' or 'sub'")
 
     num1 = array_to_int(a)
     num2 = array_to_int(b)
@@ -111,15 +113,13 @@ def task4_menu():
     a = None
     b = None
     result = None
+    msgs = MESSAGES["task4"]
 
     while True:
-        print("\n=== ЗАДАНИЕ 4 ===")
-        print("1. Ввести массивы вручную")
-        print("2. Сгенерировать массивы случайно")
-        print("3. Выполнить операцию")
-        print("4. Показать результат")
-        print("5. Назад")
-        print("6. Отключить логирование(CRITICAL)")
+
+        print("\n" + msgs["title"])
+        for option in msgs["menu"]:
+            print(option)
 
         choice = input("Выберите пункт: ")
         logger.info(f"Пользователь выбрал пункт task4: {choice}")
@@ -132,7 +132,7 @@ def task4_menu():
                 logger.info("Массивы введены вручную")
             except Exception as e:
                 logger.info(f"Ошибка ввода массивов: {e}")
-                print("Ошибка:", e)
+                print(msgs["input_error"])
 
         elif choice == "2":
             try:
@@ -146,15 +146,15 @@ def task4_menu():
                 logger.info("Случайные массивы сгенерированы")
             except Exception as e:
                 logger.info(f"Ошибка генерации: {e}")
-                print("Ошибка:", e)
+                print(msgs["input_error"])
 
         elif choice == "3":
             try:
                 if a is None or b is None:
-                    raise RuntimeError("Массивы не заданы")
+                    raise DataNotSetError(msgs["no_data"])
                 op = input("Операция (add/sub): ")
                 result = big_number_operation(a, b, op)
-                print("Операция выполнена")
+                print(msgs["operation_done"])
                 logger.info("Операция выполнена")
             except Exception as e:
                 logger.info(f"Ошибка операции: {e}")
@@ -178,7 +178,7 @@ def task4_menu():
             # здесь запись в лог НЕ появится (оно отключено)
         
         else:
-            print("Неверный пункт.")
+            print(msgs["invalid_choice"])
             logger.info("Неверный пункт меню")
 
 
