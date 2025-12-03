@@ -23,7 +23,7 @@ def task3_menu():
         print("2. Сгенерировать случайную матрицу")
         print("3. Выполнить поворот")
         print("4. Показать результат")
-        print("5. Назад")
+        print("5. Выход")
 
         choice = input("Выберите пункт: ")
 
@@ -50,8 +50,7 @@ def task3_menu():
                 print("Сначала введите матрицу!")
                 continue
 
-            direction = input("Направление (clockwise/counterclockwise): ")
-            result = rotate_matrix(matrix, direction)
+            result = rotate_matrix(matrix, direction='clockwise')
             print("Поворот выполнен.")
 
         # --- вывод ---
