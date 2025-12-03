@@ -36,25 +36,19 @@ def task8_menu():
 
         #ввод вручную
         if choice == "1":
-            try:
-                array1 = list(map(int, input("Массив 1: ").split()))
-                array2 = list(map(int, input("Массив 2: ").split()))
-                result = None
-            except ValueError:
-                print("Ошибка: вводите целые числа.")
+            array1 = list(map(int, input("Массив 1: ").split()))
+            array2 = list(map(int, input("Массив 2: ").split()))
+            result = None
 
         #случайным образом
         elif choice == "2":
-            try:
-                size1 = int(input("Размер массива 1: "))
-                size2 = int(input("Размер массива 2: "))
-                array1 = generate_random_array(size1)
-                array2 = generate_random_array(size2)
-                print("Массив 1:", array1)
-                print("Массив 2:", array2)
-                result = None
-            except ValueError:
-                print("Ошибка ввода.")
+            size1 = int(input("Размер массива 1: "))
+            size2 = int(input("Размер массива 2: "))
+            array1 = generate_random_array(size1)
+            array2 = generate_random_array(size2)
+            print("Массив 1:", array1)
+            print("Массив 2:", array2)
+            result = None
 
         #выполнение алгоритма
         elif choice == "3":
