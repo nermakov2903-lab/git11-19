@@ -27,8 +27,13 @@ def count_common_with_reverse(array1, array2):
     Возвращает:
         int: количество совпадающих элементов
     """
+    if array1 is None or array2 is None:
+        raise ValueError("Массивы не заданы")
     count = 0
     for number in array1:
+
+        if not isinstance(number, int):
+            raise TypeError("Массив должен содержать только целые числа")
 
         if number < 0:
             reversed_number = -int(str(-number)[::-1])
@@ -97,36 +102,49 @@ def task8_menu():
         logger.info(f"Пользователь выбрал пункт task8: {choice}")
 
         if choice == "1":
-            array1 = list(map(int, input("Массив 1: ").split()))
-            array2 = list(map(int, input("Массив 2: ").split()))
-            logger.info("Массивы введены вручную")
-            result = None
+            try:
+                array1 = list(map(int, input("Массив 1: ").split()))
+                array2 = list(map(int, input("Массив 2: ").split()))
+                result = None
+                logger.info("Массивы введены вручную")
+            except Exception as e:
+                logger.info(f"Ошибка ввода: {e}")
+                print("Ошибка:", e)
 
         elif choice == "2":
-            size1 = int(input("Размер массива 1: "))
-            size2 = int(input("Размер массива 2: "))
-            array1 = generate_random_array(size1)
-            array2 = generate_random_array(size2)
-            logger.info("Массивы сгенерированы случайно")
-            result = None
+            try:
+                size1 = int(input("Размер массива 1: "))
+                size2 = int(input("Размер массива 2: "))
+                array1 = generate_random_array(size1)
+                array2 = generate_random_array(size2)
+                print("Массив 1:", array1)
+                print("Массив 2:", array2)
+                result = None
+                logger.info("Массивы сгенерированы")
+            except Exception as e:
+                logger.info(f"Ошибка генерации: {e}")
+                print("Ошибка:", e)
 
         elif choice == "3":
-            if array1 is None or array2 is None:
-                print("Сначала введите данные!")
-                logger.info("Ошибка: попытка выполнить алгоритм без данных")
-            else:
+            try:
+                if array1 is None or array2 is None:
+                    raise RuntimeError("Массивы не заданы")
                 result = count_common_with_reverse(array1, array2)
+                print("Алгоритм выполнен")
                 logger.info("Алгоритм выполнен")
+            except Exception as e:
+                logger.info(f"Ошибка выполнения алгоритма: {e}")
+                print("Ошибка:", e)
 
         elif choice == "4":
             if result is None:
-                print("Сначала выполните алгоритм!")
-                logger.info("Ошибка: вывод результата без выполнения алгоритма")
+                print("Нет результата!")
             else:
                 print("Количество общих чисел:", result)
+                logger.info("Результат показан")
 
         elif choice == "5":
-            logger.info("Возврат в главное меню")
+            logger.info("Выход из task8")
             return
 
         elif choice == "6":
