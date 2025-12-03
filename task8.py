@@ -4,7 +4,7 @@ from logger import logger
 
 def count_common_with_reverse(array1, array2):
     logger.info(f"Вызов count_common_with_reverse({array1}, {array2})")
-"""
+    """
     Подсчитывает количество чисел, которые встречаются в обоих массивах,
     включая случаи, когда одно число является перевёрнутой версией другого.
 
