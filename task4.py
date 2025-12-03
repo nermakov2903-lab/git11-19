@@ -17,6 +17,8 @@ def array_to_int(arr):
     """
 
     logger.info(f"Преобразование массива в число: {arr}")
+    if not all(isinstance(x, int) for x in arr):
+        raise TypeError("Массив должен содержать только цифры")
     return int("".join(map(str, arr)))
 
 
@@ -123,38 +125,50 @@ def task4_menu():
         logger.info(f"Пользователь выбрал пункт task4: {choice}")
 
         if choice == "1":
-            a = list(map(int, input("Массив 1: ").split()))
-            b = list(map(int, input("Массив 2: ").split()))
-            logger.info("Пользователь ввёл массивы вручную")
-            result = None
+            try:
+                a = list(map(int, input("Массив 1: ").split()))
+                b = list(map(int, input("Массив 2: ").split()))
+                result = None
+                logger.info("Массивы введены вручную")
+            except Exception as e:
+                logger.info(f"Ошибка ввода массивов: {e}")
+                print("Ошибка:", e)
 
         elif choice == "2":
-            len1 = int(input("Длина массива 1: "))
-            len2 = int(input("Длина массива 2: "))
-            a = generate_digits(len1)
-            b = generate_digits(len2)
-            logger.info("Массивы сгенерированы автоматически")
-            result = None
+            try:
+                len1 = int(input("Длина массива 1: "))
+                len2 = int(input("Длина массива 2: "))
+                a = generate_digits(len1)
+                b = generate_digits(len2)
+                print("A:", a)
+                print("B:", b)
+                result = None
+                logger.info("Случайные массивы сгенерированы")
+            except Exception as e:
+                logger.info(f"Ошибка генерации: {e}")
+                print("Ошибка:", e)
 
         elif choice == "3":
-            if a is None or b is None:
-                print("Сначала введите данные!")
-                logger.info("Ошибка: попытка выполнения операции без данных")
-                continue
-
-            op = input("Операция (add/sub): ")
-            result = big_number_operation(a, b, op)
-            logger.info("Операция выполнена")
+            try:
+                if a is None or b is None:
+                    raise RuntimeError("Массивы не заданы")
+                op = input("Операция (add/sub): ")
+                result = big_number_operation(a, b, op)
+                print("Операция выполнена")
+                logger.info("Операция выполнена")
+            except Exception as e:
+                logger.info(f"Ошибка операции: {e}")
+                print("Ошибка:", e)
 
         elif choice == "4":
             if result is None:
                 print("Нет результата!")
-                logger.info("Ошибка: попытка вывести результат без вычислений")
             else:
                 print("Результат:", result)
+                logger.info("Результат показан")
 
         elif choice == "5":
-            logger.info("Возврат в главное меню")
+            logger.info("Выход из task4")
             return
             
         elif choice == "6":
