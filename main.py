@@ -23,35 +23,28 @@ def main():
         — перейти к выполнению задания №8,
         — завершить работу приложения.
     """
-    setup_logging()  # по умолчанию level=INFO
-    logger.info("Приложение запущено")
+  while True:
+    print("\n=== ГЛАВНОЕ МЕНЮ ===")
+    print("1. Задание 3 (Поворот матрицы)")
+    print("2. Задание 4 (Операции над большими числами)")
+    print("3. Задание 8 (Общие числа с реверсом)")
+    print("4. Выход")
 
-    while True:
-        print("\n=== ГЛАВНОЕ МЕНЮ ===")
-        print("1. Задание 3 (Поворот матрицы)")
-        print("2. Задание 4 (Операции над большими числами)")
-        print("3. Задание 8 (Общие числа с реверсом)")
-        print("4. Выход")
+    choice = input("Выберите пункт: ")
+    logger.info(f"Пользователь выбрал главный пункт меню: {choice}")
 
-        choice = input("Выберите пункт: ")
-        logger.info(f"Пользователь выбрал главный пункт меню: {choice}")
-
-        if choice == "1":
-            logger.info("Пользователь выбрал 1 пункт меню")
-            task3_menu()
-        elif choice == "2":
-            logger.info("Пользователь выбрал 2 пункт меню")
-            task4_menu()
-        elif choice == "3":
-            logger.info("Пользователь выбрал 3 пункт меню")
-            task8_menu()
-        elif choice == "4":
-            logger.info("Пользователь выбрал 4 пункт меню")
-            print("Выход...")
-            break
-        else:
-            print("Неверный пункт!")
-            logger.info("Ошибка: неверный пункт главного меню")
+    if choice == "1":
+        task3_menu()
+    elif choice == "2":
+        task4_menu()
+    elif choice == "3":
+        task8_menu()
+    elif choice == "4":
+        print("Выход...")
+        break
+    else:
+        print("Неверный пункт!")
+        logger.info("Ошибка: неверный пункт главного меню")
 
 
 if __name__ == "__main__":
