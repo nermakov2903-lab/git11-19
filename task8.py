@@ -1,6 +1,7 @@
 import random
 from logger import logger
-
+from exceptions import DataNotSetError, InvalidValueError
+from messages import MESSAGES
 
 def count_common_with_reverse(array1, array2):
     logger.info(f"Вызов count_common_with_reverse({array1}, {array2})")
@@ -28,12 +29,12 @@ def count_common_with_reverse(array1, array2):
         int: количество совпадающих элементов
     """
     if array1 is None or array2 is None:
-        raise ValueError("Массивы не заданы")
+        raise DataNotSetError("Массивы не заданы")
     count = 0
     for number in array1:
 
         if not isinstance(number, int):
-            raise TypeError("Массив должен содержать только целые числа")
+            raise InvalidValueError("Массив должен содержать только целые числа")
 
         if number < 0:
             reversed_number = -int(str(-number)[::-1])
@@ -88,15 +89,13 @@ def task8_menu():
     array1 = None
     array2 = None
     result = None
+    msgs = MESSAGES["task8"]
 
     while True:
-        print("\n=== ЗАДАНИЕ 8 ===")
-        print("1. Ввести массивы вручную")
-        print("2. Сгенерировать массивы случайно")
-        print("3. Выполнить алгоритм")
-        print("4. Показать результат")
-        print("5. Назад в главное меню")
-        print("6. Отключить логирование(CRITICAL)")
+
+        print("\n" + msgs["title"])
+        for option in msgs["menu"]:
+            print(option)
 
         choice = input("Выберите пункт: ")
         logger.info(f"Пользователь выбрал пункт task8: {choice}")
@@ -109,7 +108,7 @@ def task8_menu():
                 logger.info("Массивы введены вручную")
             except Exception as e:
                 logger.info(f"Ошибка ввода: {e}")
-                print("Ошибка:", e)
+                print(msgs["input_error"])
 
         elif choice == "2":
             try:
@@ -123,14 +122,14 @@ def task8_menu():
                 logger.info("Массивы сгенерированы")
             except Exception as e:
                 logger.info(f"Ошибка генерации: {e}")
-                print("Ошибка:", e)
+                print(msgs["input_error"])
 
         elif choice == "3":
             try:
                 if array1 is None or array2 is None:
-                    raise RuntimeError("Массивы не заданы")
+                    raise DataNotSetError(msgs["no_data"])
                 result = count_common_with_reverse(array1, array2)
-                print("Алгоритм выполнен")
+                print(msgs["algorithm_done"])
                 logger.info("Алгоритм выполнен")
             except Exception as e:
                 logger.info(f"Ошибка выполнения алгоритма: {e}")
@@ -153,5 +152,5 @@ def task8_menu():
             logger.critical("Логи ниже уровня CRITICAL теперь отключены")
             
         else:
-            print("Неверный пункт меню.")
+            print(msgs["invalid_choice"])
             logger.info("Неверный пункт меню пользователем")
