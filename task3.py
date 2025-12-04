@@ -4,73 +4,112 @@ from logger import logger
 
 def rotate_matrix(matrix, direction="clockwise"):
     """
-    Поворачивает матрицу на 90 градусов.
+    Rotate a matrix by 90 degrees.
 
-    Параметры:
-        matrix (list[list[int]]): входная матрица N×M
-        direction (str): направление поворота:
-                         "clockwise" — по часовой стрелке
-                         "counterclockwise" — против часовой стрелки
+    Parameters
+    ----------
+    matrix : list of list of int
+        Входная матрица размера N×M.
+    direction : {"clockwise", "counterclockwise"}, optional
+        Направление поворота:
+        - ``"clockwise"`` — поворот по часовой стрелке,
+        - ``"counterclockwise"`` — поворот против часовой.
 
-    Возвращает:
-        list[list[int]]: новая повернутая матрица
+    Returns
+    -------
+    list of list of int
+        Новая повернутая матрица.
 
-    Описание алгоритма:
-    Поворот достигается через транспонирование матрицы:
-        zip(*matrix)
-    Далее выполняется зеркальное отражение:
-        - Для clockwise: разворот строк
-        - Для counterclockwise: разворот порядка строк
+    Notes
+    -----
+    Поворот выполняется через транспонирование:
+
+    >>> zip(*matrix)
+
+    После транспонирования выполняется зеркальное отражение:
+    - Для ``"clockwise"`` — отражение строк по горизонтали.
+    - Для ``"counterclockwise"`` — инверсия списка строк.
+
+    Examples
+    --------
+    >>> rotate_matrix([[1, 2], [3, 4]], "clockwise")
+    [[3, 1], [4, 2]]
+
+    >>> rotate_matrix([[1, 2], [3, 4]], "counterclockwise")
+    [[2, 4], [1, 3]]
     """
-    logger.info(f"Вызов rotate_matrix()")
+    
+    logger.info("Вызов rotate_matrix()")
 
     if not matrix or not matrix[0]:
         logger.info("Получена пустая матрица")
         return []
 
     if direction == "clockwise":
-        logger.info("Выполняется поворот по часовой стрелке")
+        logger.info("Поворот по часовой стрелке")
         return [list(row)[::-1] for row in zip(*matrix)]
     else:
-        logger.info("Выполняется поворот против часовой стрелки")
+        logger.info("Поворот против часовой стрелки")
         rotated = [list(row) for row in zip(*matrix)]
         return rotated[::-1]
 
 
 def generate_random_matrix(n, m, low=0, high=9):
     """
-    Генерирует случайную матрицу N×M.
+    Generate a random matrix of size N×M.
 
-    Параметры:
-        n (int): количество строк
-        m (int): количество столбцов
-        low (int): минимальное значение в матрице (включительно)
-        high (int): максимальное значение (включительно)
+    Parameters
+    ----------
+    n : int
+        Количество строк.
+    m : int
+        Количество столбцов.
+    low : int, optional
+        Минимальное возможное значение (включительно).
+    high : int, optional
+        Максимальное возможное значение (включительно).
 
-    Возвращает:
-        list[list[int]]: созданная матрица
+    Returns
+    -------
+    list of list of int
+        Сгенерированная матрица.
+
+    Notes
+    -----
+    Используется ``random.randint`` для генерации каждого элемента.
     """
+    
     logger.info(f"Генерация случайной матрицы {n}x{m}")
     return [[random.randint(low, high) for _ in range(m)] for _ in range(n)]
 
 
 def task3_menu():
     """
-    Меню для задачи 3: поворот матрицы.
+    Меню задания №3: поворот матрицы.
 
-    Позволяет:
-    1. Ввести матрицу вручную
-    2. Сгенерировать случайную матрицу
-    3. Выполнить поворот матрицы
-    4. Вывести результат
-    5. Вернуться назад
-    6. Отключить логирование
+    Description
+    -----------
+    Меню позволяет пользователю:
 
-    Правила:
-    - Нельзя выполнять поворот без введённой матрицы
-    - Нельзя выводить результат до выполнения поворота
-    - При вводе новой матрицы результат сбрасывается
+    1. Ввести матрицу вручную.
+    2. Сгенерировать случайную матрицу.
+    3. Выполнить поворот матрицы.
+    4. Просмотреть результат.
+    5. Вернуться назад.
+    6. Отключить логирование (установить уровень CRITICAL).
+
+    Notes
+    -----
+    - Поворот невозможен без предварённого ввода матрицы.
+    - При вводе или генерации новой матрицы предыдущий результат сбрасывается.
+    - Логи фиксируют действия пользователя.
+
+    Examples
+    --------
+    >>> task3_menu()
+    # Появится интерактивное меню
     """
+    
     matrix = None
     result = None
 
@@ -103,7 +142,7 @@ def task3_menu():
         elif choice == "3":
             if matrix is None:
                 print("Сначала введите матрицу!")
-                logger.info("Ошибка: попытка выполнить поворот без матрицы")
+                logger.info("Ошибка: поворот без матрицы")
                 continue
 
             direction = input("Направление (clockwise/counterclockwise): ")
@@ -113,7 +152,7 @@ def task3_menu():
         elif choice == "4":
             if result is None:
                 print("Нет результата!")
-                logger.info("Ошибка: попытка вывести результат без алгоритма")
+                logger.info("Ошибка: вывод без выполнения алгоритма")
             else:
                 print(*result, sep="\n")
 
@@ -124,9 +163,8 @@ def task3_menu():
         elif choice == "6":
             logger.setLevel("CRITICAL")
             print("Логирование отключено")
-            logger.critical("Логи ниже уровня CRITICAL теперь отключены")
-            # здесь запись в лог НЕ появится (оно отключено)
+            logger.critical("Установлен уровень CRITICAL")
 
         else:
             print("Неверный пункт.")
-            logger.info("Пользователь ввел неверный пункт меню")
+            logger.info("Неверный пункт меню")
